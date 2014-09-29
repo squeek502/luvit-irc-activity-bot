@@ -1,4 +1,5 @@
 local string = require("string")
+local table = require("table")
 local irc_util = require("luvit-irc/modules/irc/util")
 local Formatting = require("luvit-irc/modules/irc/formatting")
 local Colors = Formatting.Colors
@@ -158,11 +159,12 @@ local handlers = {
 	end,
 	PushEvent = function(event, payload)
 		local commitlines = {}
-		table.insert(commitlines, string.format("%s pushed %d commit(s) to %s%s",
+		table.insert(commitlines, string.format("%s pushed %d commit(s) to %s%s %s",
 			user(event.actor.login),
 			payload.size,
 			repo(event.repo.name),
-			branch("@"..payload.ref))
+			branch("@"..payload.ref),
+			commits_url(event.repo.url, payload.ref))
 		)
 		for _,commit in ipairs(payload.commits) do
 			table.insert(commitlines, string.format("%s%s: %s",
@@ -171,7 +173,6 @@ local handlers = {
 				plaintext(commit.message, 64))
 			)
 		end
-		table.insert(commitlines, commits_url(event.repo.url, payload.ref))
 		return irc_util.string.join(commitlines, "\r\n")
 	end,
 	ReleaseEvent = function(event, payload)
