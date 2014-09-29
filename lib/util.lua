@@ -15,7 +15,7 @@ util.table.deep_equal = function(a, b)
 end
 
 util.events.delta = function(newer, older)
-	if #older == 0 then return newer end
+	if not older or #older == 0 then return newer end
 	local latest_seen = older[1]
 	local latest_seen_date = latest_seen.created_at
 	local delta = {}
