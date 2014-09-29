@@ -1,0 +1,9 @@
+[submodule "modules/luvit-test"]
+	path = modules/luvit-test
+	url = https://github.com/squeek502/luvit-test
+[submodule "modules/luvit-irc"]
+	path = modules/luvit-irc
+	url = https://github.com/squeek502/luvit-irc
+[submodule "modules/luvit-poller"]
+	path = modules/luvit-poller
+	url = https://github.com/squeek502/luvit-poller
