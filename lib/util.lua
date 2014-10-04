@@ -1,18 +1,7 @@
 local table = require "table"
+local os = require "os"
 
-local util = { table = {}, events = {} }
-
-util.table.deep_equal = function(a, b)
-	if type(a) == 'table' and type(b) == 'table' then
-		if #a ~= #b then return false end
-		for k, v in pairs(a) do
-			if not util.table.deep_equal(v, b[k]) then return false end
-		end
-		return true
-	else
-		return a == b
-	end
-end
+local util = { date = {}, events = {} }
 
 util.events.delta = function(newer, older)
 	if not older or #older == 0 then return newer end
@@ -27,20 +16,9 @@ util.events.delta = function(newer, older)
 	return delta
 end
 
--- not working right for our purposes
-util.table.delta = function(newer, older)
-	local delta = {}
-	if type(newer) ~= "table" then return delta end
-	local olderi = 1
-	for i,val in ipairs(newer) do
-		local olderval = older and older[olderi]
-		if util.table.deep_equal(val, olderval) then
-			olderi = olderi + i
-		else
-			table.insert(delta, val)
-		end
-	end
-	return delta
+util.date.RFC_1123 = function(time)
+	-- Sun, 06 Nov 1994 08:49:37 GMT
+	return os.date("%a, %d %b %Y %H:%M:%S GMT", time)
 end
 
 return util

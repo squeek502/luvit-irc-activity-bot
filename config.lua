@@ -1,7 +1,7 @@
 return {
 	server = "irc.esper.net",
-	nick = "Squactivity",
+	nick = "ActivityBot",
 	channels = {
-		"#squeek"
+		"#squeektest"
 	},
 }
