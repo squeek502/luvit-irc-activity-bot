@@ -36,6 +36,10 @@ function Cache:put(data)
 	self.info = { retreived = os.time(), etag = self.poller.etag }
 	self.data = data
 
+	local ok, err = pcall(Cache._write, self)
+end
+
+function Cache:_write()
 	local stringinfo = JSON.stringify(self.info)
 	local stringdata = JSON.stringify(self.data)
 
@@ -48,7 +52,7 @@ function Cache:put(data)
 	end
 	FS.writeFile(infofilename, stringinfo, function(err)
 		if err then
-			p(err)
+			error(err)
 		end
 	end)
 
@@ -57,12 +61,23 @@ function Cache:put(data)
 	end
 	FS.writeFile(datafilename, stringdata, function(err)
 		if err then
-			p(err)
+			error(err)
 		end
 	end)
 end
 
 function Cache:get()
+	if not self.info or not self.data then
+		local ok, readinfo, readdata = pcall(Cache._read, self)
+		if ok then
+			self.info = readinfo or self.info
+			self.data = readdata or self.data
+		end
+	end
+	return self.info, self.data
+end
+
+function Cache:_read()
 	local infofilename, datafilename = self:getfilenames()
 
 	local cachedinfo = nil
