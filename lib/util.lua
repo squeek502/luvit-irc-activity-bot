@@ -21,12 +21,12 @@ end
 
 util.date.RFC_1123 = function(time)
 	-- Sun, 06 Nov 1994 08:49:37 GMT
-	return os.date("%a, %d %b %Y %H:%M:%S GMT", time)
+	return os.date("!%a, %d %b %Y %H:%M:%S GMT", time)
 end
 
 util.date.ISO_8601 = function(time)
 	-- 2014-10-07T20:08:59Z
-	return os.date("%Y-%m-%dT%H:%M:%SZ", time)
+	return os.date("!%Y-%m-%dT%H:%M:%SZ", time)
 end
 
 return util
