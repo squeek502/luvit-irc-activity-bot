@@ -19,6 +19,7 @@ function Cache:initialize(poller, rootdir)
 	self.info, self.data = self:get()
 	if self.info then
 		self.poller.etag = self.info.etag
+		self.poller.last_modified = self.info.last_modified
 		self.poller.last_poll = self.info.retrieved
 	end
 end
@@ -34,7 +35,12 @@ function Cache:getfilenames()
 end
 
 function Cache:put(data)
-	self.info = { retrieved = self.poller.last_poll or os.time(), etag = self.poller.etag }
+	self.info = 
+	{ 
+		retrieved = self.poller.last_poll or os.time(),
+		etag = self.poller.etag,
+		last_modified = self.poller.last_modified
+	}
 	self.data = data
 
 	local ok, err = pcall(Cache._write, self)
