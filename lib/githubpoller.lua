@@ -4,6 +4,7 @@ local EventHandler = require "./eventhandler"
 local get = require "./get"
 local util = require "./util"
 local string = require "string"
+local table = require "table"
 local os = require "os"
 local JSON = require "json"
 local Emitter = require "core".Emitter
