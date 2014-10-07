@@ -51,8 +51,9 @@ function GithubPoller:initpoller(poller, pollertype)
 	table.insert(self.pollers, poller)
 	table.insert(self.caches, cache)
 
-	if not cache.data then
-		poller.headers["If-Modified-Since"] = util.date.RFC_1123()
+	if not cache.data and not cache.info then
+		poller.last_poll = os.time()
+		cache:put(nil)
 	end
 
 	poller:on("polling", function()
@@ -69,16 +70,21 @@ function GithubPoller:initpoller(poller, pollertype)
 		end
 
 		local events = JSON.parse(data)
-		local delta = util.events.delta(events, cache.data)
+		local delta = util.events.delta(events, cache.data, cache.info.retrieved)
 		cache:put(events)
 
-		for _,event in ipairs(delta) do
+		-- iterate in reverse order so that the most recent is last
+		for i=#delta,1,-1 do
+			local event = delta[i]
 			local ignore = false
 			-- ignore overlap between user and repository events
 			ignore = ignore or (pollertype == "user" and event.repo and self.repos[event.repo.name] ~= nil)
 			if not ignore then
+				p("From "..poller.url.." ("..pollertype.."):")
 				local msg_string = EventHandler.stringify(event)
 				self:emit("data", msg_string)
+			else
+				p("Ignoring "..(event.type).." event from "..poller.url.." ("..pollertype..")")
 			end
 		end
 	end)

@@ -17,13 +17,14 @@ function Cache:initialize(poller, rootdir)
 	self.poller = poller
 	self.rootdir = (rootdir or "cache")
 	self.info, self.data = self:get()
-	if self.info and self.info.etag then
+	if self.info then
 		self.poller.etag = self.info.etag
+		self.poller.last_poll = self.info.retrieved
 	end
 end
 
 function Cache:getfilenames()
-	local subdirs = self.poller.parsed_url.pathname:gsub("/", Path:getSep())
+	local subdirs = self.poller.parsed_url.pathname:gsub("/", Path.getSep and Path:getSep() or Path.sep)
 	local cachedir = Path.join(self.rootdir, self.poller.parsed_url.hostname, subdirs)
 
 	local infofilename = Path.join(cachedir, "info.json")
@@ -33,7 +34,7 @@ function Cache:getfilenames()
 end
 
 function Cache:put(data)
-	self.info = { retreived = os.time(), etag = self.poller.etag }
+	self.info = { retrieved = self.poller.last_poll or os.time(), etag = self.poller.etag }
 	self.data = data
 
 	local ok, err = pcall(Cache._write, self)
