@@ -56,12 +56,12 @@ function GithubPoller:initpoller(poller, pollertype)
 		cache:put(nil)
 	end
 
-	poller:on("polling", function()
+	poller:on("polling", function(request)
 	end)
 	poller:on("error", function(err)
 		p(err)
 	end)
-	poller:on("notmodified", function(msg)
+	poller:on("notmodified", function(msg, response)
 	end)
 	poller:on("data", function(data, response)
 		if response.statusCode ~= 200 then
