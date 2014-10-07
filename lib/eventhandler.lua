@@ -61,8 +61,8 @@ local handlers = {
 	CommitCommentEvent = function(event, payload)
 		return string.format("%s commented on commit %s%s: %s %s",
 			user(payload.comment.user.login),
-			commit("@"..payload.comment.commit_id:sub(1,5)),
 			repo(event.repo.name),
+			commit("@"..payload.comment.commit_id:sub(1,5)),
 			plaintext(payload.comment.body),
 			url(payload.comment.html_url))
 	end,
