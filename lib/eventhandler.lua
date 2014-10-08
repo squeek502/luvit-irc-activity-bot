@@ -7,6 +7,13 @@ local colorize = Formatting.colorize
 local Styles = Formatting.Styles
 local stylize = Formatting.stylize
 
+local function avoid_highlights(text)
+	-- U+200B
+	local zero_width_space = string.char(226)..string.char(128)..string.char(139)
+	-- insert zero width spce after the first character in each multi-letter word
+	return text:gsub("([%w])([%w]+)", "%1"..zero_width_space.."%2")
+end
+
 local function url(url)
 	url = url:gsub("(.+)://api%.([^/]+)/[^/]+/(.*)", "%1://%2/%3")
 	return colorize("[", Colors.LIGHT_GRAY)..colorize(url, Colors.GRAY)..colorize("]", Colors.LIGHT_GRAY)
@@ -38,6 +45,7 @@ local function plaintext(text, maxlen)
 end
 
 local function repo(name)
+	name = avoid_highlights(name)
 	return colorize(name, Colors.DARK_RED)
 end
 
@@ -46,10 +54,12 @@ local function issue(number)
 end
 
 local function user(name)
+	name = avoid_highlights(name)
 	return colorize(stylize(name, Styles.BOLD), Colors.LIGHT_RED)
 end
 
 local function committer(name)
+	name = avoid_highlights(name)
 	return colorize(name, Colors.LIGHT_BLUE)
 end
 
