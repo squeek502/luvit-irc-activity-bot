@@ -4,4 +4,8 @@ return {
 	channels = {
 		"#squeektest"
 	},
+	github = {
+		users={"octocat"},
+		repos={"luvit/luvit"},
+	}
 }
