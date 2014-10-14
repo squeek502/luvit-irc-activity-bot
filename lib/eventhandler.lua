@@ -176,11 +176,24 @@ local handlers = {
 			branch("@"..payload.ref),
 			commits_url(event.repo.url, payload.ref))
 		)
+		local maxcommits = 5
+		local numcommits = 0
+		local totalcommits = #payload.commits
 		for _,commit in ipairs(payload.commits) do
 			table.insert(commitlines, string.format("%s%s: %s",
 				colorize("-> ", Colors.GRAY),
 				committer(commit.author.username or commit.author.name),
 				plaintext(commit.message, 64))
+			)
+			numcommits = numcommits + 1
+			if numcommits >= maxcommits then
+				break
+			end
+		end
+		if totalcommits > numcommits then
+			table.insert(commitlines, string.format("%s%d more...",
+				colorize("-> ", Colors.GRAY),
+				totalcommits - numcommits)
 			)
 		end
 		return irc_util.string.join(commitlines, "\r\n")
