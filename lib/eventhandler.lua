@@ -162,7 +162,7 @@ local handlers = {
 	PullRequestReviewCommentEvent = function(event, payload)
 		return string.format("%s commented on the diff of pull request %s (%s): %s %s",
 			user(event.actor.login),
-			repo(event.repo.name)..issue(payload.number),
+			repo(event.repo.name)..issue(payload.pull_request.number),
 			plaintext(payload.pull_request.title),
 			plaintext(payload.comment.body),
 			url(payload.pull_request.html_url))
