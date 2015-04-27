@@ -1,9 +1,8 @@
-local IRC = require "luvit-irc"
-local Formatting = require "luvit-irc/lib/formatting"
+local IRC = require "irc"
+local Formatting = IRC.Formatting
 local GithubPoller = require "./lib/githubpoller"
-local table = require "table"
 
-local config_file = process.argv[1] or "config"
+local config_file = process.argv[2] or "config"
 local config = require ("./"..config_file)
 
 local irc_connection = IRC:new (config.server, config.nick, {auto_connect=true, auto_join=config.channels})

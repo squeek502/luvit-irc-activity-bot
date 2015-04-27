@@ -1,10 +1,8 @@
-local Poller = require "luvit-poller"
+local Poller = require "poller"
 local Cache = require "./cache"
 local EventHandler = require "./eventhandler"
 local get = require "./get"
 local util = require "./util"
-local string = require "string"
-local table = require "table"
 local os = require "os"
 local JSON = require "json"
 local Emitter = require "core".Emitter
@@ -65,7 +63,7 @@ function GithubPoller:initpoller(poller, pollertype)
 	end)
 	poller:on("data", function(data, response)
 		if response.statusCode ~= 200 then
-			p("Unexpected response status code: ", response.statusCode)
+			p("Unexpected response status code: ", response.statusCode, response.headers)
 			return
 		end
 
