@@ -8,7 +8,7 @@ return {
   dependencies = {
     "luvit/luvit@2.1.0",
     "squeek502/irc@0.3.1",
-    "squeek502/poller@0.2.0"
+    "squeek502/poller@0.2.1"
   },
   files = {
     "!tests",
