@@ -13,7 +13,7 @@ local get = function(url, callback)
 		host = parsed_url.hostname,
 		port = port,
 		path = parsed_url.pathname or "/",
-		headers = { ["User-Agent"] = "luvit-irc-activity-bot" }
+		headers = { {"User-Agent", "luvit-irc-activity-bot"} }
 	}, 
 	function (response)
 		local data = ""
