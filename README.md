@@ -1,4 +1,4 @@
-Luvit IRC Activity Bot
+Luvit IRC Activity Bot [![Build Status](https://travis-ci.org/squeek502/luvit-irc-activity-bot.svg)](https://travis-ci.org/squeek502/luvit-irc-activity-bot)
 ======================
 IRC bot that announces Github activity for user/organization
 
