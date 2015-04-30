@@ -7,5 +7,6 @@ return {
 	github = {
 		users={"octocat"},
 		repos={"luvit/luvit"},
+		orgs={},
 	}
 }

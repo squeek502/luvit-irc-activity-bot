@@ -13,6 +13,7 @@ function GithubPoller:initialize(settings)
 	self.users = {}
 	self.repos = {}
 	self.gists = {}
+	self.orgs = {}
 	self.pollers = {}
 	self.caches = {}
 
@@ -20,6 +21,7 @@ function GithubPoller:initialize(settings)
 	settings.users = settings.users or {}
 	settings.repos = settings.repos or {}
 	settings.gists = settings.gists or {}
+	settings.orgs = settings.orgs or {}
 
 	for _,user in ipairs(settings.users) do
 		self:adduser(user)
@@ -29,6 +31,9 @@ function GithubPoller:initialize(settings)
 	end
 	for _,gist in ipairs(settings.gists) do
 		self:addgist(gist)
+	end
+	for _,org in ipairs(settings.orgs) do
+		self:addorganization(org)
 	end
 end
 
@@ -100,6 +105,14 @@ function GithubPoller:addrepo(reponame)
 	self.repos[reponame] = repo_events_poller
 	self:initpoller(repo_events_poller, "repo")
 	p("[GithubPoller] Tracking repository events: "..reponame)
+end
+
+function GithubPoller:addorganization(orgname)
+	local org_events_url = string.format("https://api.github.com/orgs/%s/events", orgname)
+	local org_events_poller = Poller:new(org_events_url)
+	self.orgs[orgname] = org_events_poller
+	self:initpoller(org_events_poller, "org")
+	p("[GithubPoller] Tracking organization events: "..orgname)
 end
 
 function GithubPoller:addgist(gistid)
