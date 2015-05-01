@@ -2,14 +2,9 @@ Luvit IRC Activity Bot [![Build Status](https://travis-ci.org/squeek502/luvit-ir
 ======================
 IRC bot that announces Github activity for repositories/users/organizations
 
-Example output:
+##### Example output:
 
-```
-squeek502 pushed 1 commit(s) to squeek502/lit@patch-2 [https://github.com/squeek502/lit/commits/patch-2]
--> squeek502: 'Fix update on Windows not targetting .exe files.  * Mirrors logi...'
-
-squeek502 opened pull request luvit/lit#75 ('Fix update on Windows not target...') [https://github.com/luvit/lit/pull/75]
-```
+![squeek502 pushed 1 commit(s) to squeek502/lit@patch-2 [https://github.com/squeek502/lit/commits/patch-2]](http://www.ryanliptak.com/misc/luvit-irc-activity-bot-preview.png)
 
 Usage
 -----
